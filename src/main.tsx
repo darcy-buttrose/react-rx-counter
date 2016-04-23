@@ -1,4 +1,4 @@
-/// <reference path="../../typings/tsd.d.ts" />
+/// <reference path="../typings/browser.d.ts" />
 import {component} from 'cycle-react';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';

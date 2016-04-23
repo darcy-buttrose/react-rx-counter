@@ -10,6 +10,7 @@ gulp.task('compile', () => {
         .pipe(typescript(typescript.createProject('./tsconfig.json')))
         .pipe(babel({
             plugins: [
+                'transform-react-jsx',
                 'transform-es2015-modules-commonjs'
             ],
             presets: [
@@ -20,14 +21,14 @@ gulp.task('compile', () => {
 });
 
 gulp.task('test',['compile'], () => {
-    return gulp.src('./build/spec/**/*.spec.js')
+    return gulp.src('./build/**/*.spec.js')
         .pipe(mocha({
             reporter: 'spec'
         }));
 });
 
 gulp.task('package', ['compile'],function() {
-    return gulp.src('./build/code/main.js')
+    return gulp.src('./build/main.js')
         .pipe(webpack({
             devtool: 'sourse-map',
             output: {
