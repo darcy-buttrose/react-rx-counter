@@ -1,23 +1,16 @@
-/// <reference path="../typings/browser.d.ts" />
-import {component} from 'cycle-react';
+///<reference path="./typings.d.ts" />
+import makeModel from './model/counter';
+import makeView from './view/counter';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
+import {component} from 'cycle-react';
 
-const Hello = component('Hello', (interactions) => {
-    return interactions.get('OnNameChanged')
-        .map(ev => ev.target.value)
-        .startWith('')
-        .map(name =>
-            <div>
-                <label>Name:</label>
-                <input type="text" onChange={interactions.listener('OnNameChanged')} />
-                <hr/>
-                <h1>Hello {name}</h1>
-            </div>
-        );
-});
+const Root = component(
+  'Root',
+  (interactions) => makeView(interactions, makeModel(interactions))
+);
 
 ReactDOM.render(
-    <Hello />,
-    document.querySelector('#app')
+  <Root />,
+  document.querySelector('app')
 );
