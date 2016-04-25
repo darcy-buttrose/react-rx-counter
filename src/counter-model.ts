@@ -1,12 +1,11 @@
 // This example merges the "intent" tier into the "model" tier.
 // See "many" and "todomvc" for MVI examples.
-///<reference path="../typings.d.ts" />
-import * as Rx from 'rxjs';
+import * as Rx from 'rx';
 import {
   onIncrement,
   onDecrement,
   onIncrementIfOdd
-} from '../interaction-types';
+} from './interaction-types';
 
 export default function makeModel(interactions) {
   const incrementMod = interactions.get(onIncrement)

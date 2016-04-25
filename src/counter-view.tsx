@@ -1,6 +1,6 @@
 import * as React from 'react';
-import * as InteractionTypes from '../interaction-types';
-import Counter from '../component/counter';
+import * as InteractionTypes from './interaction-types';
+import Counter from './counter-component';
 
 export default function makeView(interactions, model) {
   return model.map(counter =>

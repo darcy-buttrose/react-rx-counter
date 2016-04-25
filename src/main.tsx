@@ -1,6 +1,6 @@
 ///<reference path="./typings.d.ts" />
-import makeModel from './model/counter';
-import makeView from './view/counter';
+import makeModel from './counter-model';
+import makeView from './counter-view';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import {component} from 'cycle-react';
@@ -12,5 +12,5 @@ const Root = component(
 
 ReactDOM.render(
   <Root />,
-  document.querySelector('app')
+  document.querySelector('#app')
 );
