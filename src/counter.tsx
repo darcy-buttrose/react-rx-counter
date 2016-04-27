@@ -26,13 +26,13 @@ const Counter = component('Counter', (interactions) => {
   let actions$ = Rx.Observable.merge(decrement$,increment$);
   let counter$ = actions$.startWith(0).scan((x:number,y:number) => x+y);
   
-  const viewObservable = counter$.map((count) => (
+  const viewObservable = counter$.map((count) => 
       <div>
           <button onClick={decrement}>-</button>
           {count}
           <button onClick={increment}>+</button>
       </div>
-  ));
+  );
   
   return {
     view: viewObservable,

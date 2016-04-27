@@ -5,9 +5,15 @@ import * as Rx from 'rx';
 import {component} from 'cycle-react';
 import Counter from './Counter';
 
+const Root = component('Root',(interactions) => {
+  return Rx.Observable.just(0).map((count) =>
+    <div>
+      <Counter />
+    </div>
+  );
+});
+
 ReactDOM.render(
-  <div>
-    <Counter />
-  </div>,
+  <Root />,
   document.querySelector('#app')
 );
