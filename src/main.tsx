@@ -8,7 +8,6 @@ import Counter from './Counter';
 ReactDOM.render(
   <div>
     <Counter />
-    <Counter />
   </div>,
   document.querySelector('#app')
 );

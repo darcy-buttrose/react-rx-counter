@@ -4,20 +4,40 @@ import * as ReactDOM from 'react-dom';
 import * as Rx from 'rx';
 import {component} from 'cycle-react';
 
+const CounterInteractions = {
+  increment : 'onIncrement',
+  decrement : 'onDecrement'
+}
+
 const Counter = component('Counter', (interactions) => {
-  let decrement$ = interactions.get('decrement').map(() => -1);
-  let increment$ = interactions.get('increment').map(() => +1);
+  
+  const events = {
+    onIncrement: interactions.get(CounterInteractions.increment),
+    onDecrement: interactions.get(CounterInteractions.decrement)
+  }
+  
+  const {
+    increment,
+    decrement
+  } = interactions.bindListeners(CounterInteractions);
+  
+  let decrement$ = events.onDecrement.map(() => -1);
+  let increment$ = events.onIncrement.map(() => +1);
   let actions$ = Rx.Observable.merge(decrement$,increment$);
   let counter$ = actions$.startWith(0).scan((x:number,y:number) => x+y);
   
-  return counter$
-    .map((count) => (
+  const viewObservable = counter$.map((count) => (
       <div>
-          <button onClick={interactions.listener('decrement')}>-</button>
+          <button onClick={decrement}>-</button>
           {count}
-          <button onClick={interactions.listener('increment')}>+</button>
+          <button onClick={increment}>+</button>
       </div>
-    ));
+  ));
+  
+  return {
+    view: viewObservable,
+    events: events
+  }
 });
 
 export default Counter;
