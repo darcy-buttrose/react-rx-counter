@@ -10,17 +10,21 @@ const RootInteractions = {
   decrement : 'onDecrement'
 };
 
-const Root = component('Root',(interactions) => {
-  
+function intent(interactions) {
+  let decrement$ = interactions.get(RootInteractions.decrement).map(() => -1);
+  let increment$ = interactions.get(RootInteractions.increment).map(() => +1);
+  return Rx.Observable.merge(decrement$,increment$);
+}
+
+function model(actions$) {
+  return actions$.startWith(0).scan((x:number,y:number) => x+y);
+}
+
+function view(interactions,counter$) {
   const {
     increment,
     decrement
   } = interactions.bindListeners(RootInteractions);
-  
-  let decrement$ = interactions.get(RootInteractions.decrement).map(() => -1);
-  let increment$ = interactions.get(RootInteractions.increment).map(() => +1);
-  let actions$ = Rx.Observable.merge(decrement$,increment$);
-  let counter$ = actions$.startWith(0).scan((x:number,y:number) => x+y);
   
   const viewObservable = counter$.map((count) => 
     <div>
@@ -32,6 +36,10 @@ const Root = component('Root',(interactions) => {
   );
   
   return viewObservable;
+}
+
+const Root = component('Root',(interactions) => {
+  return view(interactions,model(intent(interactions)));
 });
 
 ReactDOM.render(
