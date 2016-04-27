@@ -11,13 +11,13 @@ const RootInteractions = {
 };
 
 function intent(interactions) {
-  let decrement$ = interactions.get(RootInteractions.decrement).map(() => -1);
-  let increment$ = interactions.get(RootInteractions.increment).map(() => +1);
+  let decrement$ = interactions.get(RootInteractions.decrement).map(() => count => count -= 1);
+  let increment$ = interactions.get(RootInteractions.increment).map(() => count => count += 1);
   return Rx.Observable.merge(decrement$,increment$);
 }
 
 function model(actions$) {
-  return actions$.startWith(0).scan((x:number,y:number) => x+y);
+  return actions$.startWith(0).scan((count:number,action:Function) => action(count));
 }
 
 function view(interactions,counter$) {
