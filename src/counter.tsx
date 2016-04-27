@@ -9,7 +9,7 @@ const CounterInteractions = {
   decrement : 'onDecrement'
 }
 
-const Counter = component('Counter', (interactions) => {
+const Counter = component('Counter', (interactions, props) => {
   
   const events = {
     onIncrement: interactions.get(CounterInteractions.increment),
@@ -21,12 +21,7 @@ const Counter = component('Counter', (interactions) => {
     decrement
   } = interactions.bindListeners(CounterInteractions);
   
-  let decrement$ = events.onDecrement.map(() => -1);
-  let increment$ = events.onIncrement.map(() => +1);
-  let actions$ = Rx.Observable.merge(decrement$,increment$);
-  let counter$ = actions$.startWith(0).scan((x:number,y:number) => x+y);
-  
-  const viewObservable = counter$.map((count) => 
+  const viewObservable = props.get('count').map((count) => 
       <div>
           <button onClick={decrement}>-</button>
           {count}
